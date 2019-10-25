@@ -1,24 +1,14 @@
 package teamproject;
+
 import java.util.Date;
 
 public class Employee extends Person {
 
-    public Employee() {
-        this.dateVinculation = null;
-        this.dismisallDate = null;
-        this.resignation = null;
-        this.internalId = null;
-        this.deductions = 0.0;
-    }
+
+
+    private String paymentSchedule;
     
-    
-    public Employee(Date dateVinculation, Date dismisallDate, Date resignation, String internalId, double deductions) {
-        this.dateVinculation = dateVinculation;
-        this.dismisallDate = dismisallDate;
-        this.resignation = resignation;
-        this.internalId = internalId;
-        this.deductions = deductions;
-    }
+    private String paymentType;
     
     private Date dateVinculation;
 
@@ -30,11 +20,79 @@ public class Employee extends Person {
 
     private double deductions;
 
-    private Incapacity [] incapacityList = new Incapacity[10];
+    private Date disabilityEntry;
 
-    private Workday [] workdayList = new Workday[10];
+    private int incapacityDays;
 
-    private Deductions [] deductionsList = new Deductions[10];
+    private int disalibityId;
+
+    private String entryTime;
+
+    private String departureTime;
+    private Position positionEmp;
+
+////    private Incapacity[] incapacityList = new Incapacity[10];
+//    private Workday[] workdayList = new Workday[10];
+//
+//    private Deductions[] deductionsList = new Deductions[10];
+    public Employee() {
+        this.dateVinculation = null;
+        this.dismisallDate = null;
+        this.resignation = null;
+        this.internalId = null;
+        this.deductions = 0.0;
+        this.disabilityEntry = null;
+        this.incapacityDays = 0;
+        this.disalibityId = 0;
+        this.entryTime = null;
+        this.departureTime = null;
+        this.paymentType = null;
+        this.paymentSchedule = null;
+        this.positionEmp= null;
+    }
+    public Employee(String paymentSchedule, String paymentType, Date dateVinculation, Date dismisallDate, Date resignation, String internalId, double deductions, Date disabilityEntry, int incapacityDays, int disalibityId, String entryTime, String departureTime, Position positionEmp) {
+        this.paymentSchedule = paymentSchedule;
+        this.paymentType = paymentType;
+        this.dateVinculation = dateVinculation;
+        this.dismisallDate = dismisallDate;
+        this.resignation = resignation;
+        this.internalId = internalId;
+        this.deductions = deductions;
+        this.disabilityEntry = disabilityEntry;
+        this.incapacityDays = incapacityDays;
+        this.disalibityId = disalibityId;
+        this.entryTime = entryTime;
+        this.departureTime = departureTime;
+        this.positionEmp = positionEmp;
+    }
+
+    /**
+     * @return the paymentSchedule
+     */
+    public String getPaymentSchedule() {
+        return paymentSchedule;
+    }
+
+    /**
+     * @param paymentSchedule the paymentSchedule to set
+     */
+    public void setPaymentSchedule(String paymentSchedule) {
+        this.paymentSchedule = paymentSchedule;
+    }
+
+    /**
+     * @return the paymentType
+     */
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    /**
+     * @param paymentType the paymentType to set
+     */
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
 
     /**
      * @return the dateVinculation
@@ -107,48 +165,88 @@ public class Employee extends Person {
     }
 
     /**
-     * @return the incapacityList
+     * @return the disabilityEntry
      */
-    public Incapacity[] getIncapacityList() {
-        return incapacityList;
+    public Date getDisabilityEntry() {
+        return disabilityEntry;
     }
 
     /**
-     * @param incapacityList the incapacityList to set
+     * @param disabilityEntry the disabilityEntry to set
      */
-    public void setIncapacityList(Incapacity[] incapacityList) {
-        this.incapacityList = incapacityList;
+    public void setDisabilityEntry(Date disabilityEntry) {
+        this.disabilityEntry = disabilityEntry;
     }
 
     /**
-     * @return the workdayList
+     * @return the incapacityDays
      */
-    public Workday[] getWorkdayList() {
-        return workdayList;
+    public int getIncapacityDays() {
+        return incapacityDays;
     }
 
     /**
-     * @param workdayList the workdayList to set
+     * @param incapacityDays the incapacityDays to set
      */
-    public void setWorkdayList(Workday[] workdayList) {
-        this.workdayList = workdayList;
+    public void setIncapacityDays(int incapacityDays) {
+        this.incapacityDays = incapacityDays;
     }
 
     /**
-     * @return the deductionsList
+     * @return the disalibityId
      */
-    public Deductions[] getDeductionsList() {
-        return deductionsList;
+    public int getDisalibityId() {
+        return disalibityId;
     }
 
     /**
-     * @param deductionsList the deductionsList to set
+     * @param disalibityId the disalibityId to set
      */
-    public void setDeductionsList(Deductions[] deductionsList) {
-        this.deductionsList = deductionsList;
+    public void setDisalibityId(int disalibityId) {
+        this.disalibityId = disalibityId;
     }
 
-    void getFirstName(String fName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * @return the entryTime
+     */
+    public String getEntryTime() {
+        return entryTime;
     }
+
+    /**
+     * @param entryTime the entryTime to set
+     */
+    public void setEntryTime(String entryTime) {
+        this.entryTime = entryTime;
+    }
+
+    /**
+     * @return the departureTime
+     */
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    /**
+     * @param departureTime the departureTime to set
+     */
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    /**
+     * @return the positionEmp
+     */
+    public Position getPositionEmp() {
+        return positionEmp;
+    }
+
+    /**
+     * @param positionEmp the positionEmp to set
+     */
+    public void setPositionEmp(Position positionEmp) {
+        this.positionEmp = positionEmp;
+    }
+
+    
 }
