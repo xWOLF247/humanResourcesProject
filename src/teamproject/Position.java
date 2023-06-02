@@ -1,4 +1,5 @@
 package teamproject;
+
 public class Position {
 
     private String id;
@@ -9,6 +10,10 @@ public class Position {
     private int bonus;
 
     public Position() {
+        this.id = " ";
+        this.kindPosition = null;
+        this.salary = 0.0;
+        this.bonus = 0;
     }
 
     public Position(String id, String kindPosition, double salary, int bonus) {
@@ -74,5 +79,4 @@ public class Position {
         this.bonus = bonus;
     }
 
-   
 }

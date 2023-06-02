@@ -3,10 +3,6 @@ package teamproject;
 import java.util.Date;
 
 public class Employee extends Person {
-
-
-
-    private String paymentSchedule;
     
     private String paymentType;
     
@@ -29,8 +25,9 @@ public class Employee extends Person {
     private String entryTime;
 
     private String departureTime;
-    private Position positionEmp;
-
+    
+    private Position positionEmployee;
+    
 ////    private Incapacity[] incapacityList = new Incapacity[10];
 //    private Workday[] workdayList = new Workday[10];
 //
@@ -44,14 +41,12 @@ public class Employee extends Person {
         this.disabilityEntry = null;
         this.incapacityDays = 0;
         this.disalibityId = 0;
-        this.entryTime = null;
-        this.departureTime = null;
-        this.paymentType = null;
-        this.paymentSchedule = null;
-        this.positionEmp= null;
+        this.entryTime = " ";
+        this.departureTime = " ";
+        this.paymentType = " ";        
+        this.positionEmployee= null;
     }
-    public Employee(String paymentSchedule, String paymentType, Date dateVinculation, Date dismisallDate, Date resignation, String internalId, double deductions, Date disabilityEntry, int incapacityDays, int disalibityId, String entryTime, String departureTime, Position positionEmp) {
-        this.paymentSchedule = paymentSchedule;
+    public Employee(String paymentType, Date dateVinculation, Date dismisallDate, Date resignation, String internalId, double deductions, Date disabilityEntry, int incapacityDays, int disalibityId, String entryTime, String departureTime, Position positionEmployee) {       
         this.paymentType = paymentType;
         this.dateVinculation = dateVinculation;
         this.dismisallDate = dismisallDate;
@@ -63,21 +58,7 @@ public class Employee extends Person {
         this.disalibityId = disalibityId;
         this.entryTime = entryTime;
         this.departureTime = departureTime;
-        this.positionEmp = positionEmp;
-    }
-
-    /**
-     * @return the paymentSchedule
-     */
-    public String getPaymentSchedule() {
-        return paymentSchedule;
-    }
-
-    /**
-     * @param paymentSchedule the paymentSchedule to set
-     */
-    public void setPaymentSchedule(String paymentSchedule) {
-        this.paymentSchedule = paymentSchedule;
+        this.positionEmployee = positionEmployee;
     }
 
     /**
@@ -235,17 +216,17 @@ public class Employee extends Person {
     }
 
     /**
-     * @return the positionEmp
+     * @return the positionEmployee
      */
-    public Position getPositionEmp() {
-        return positionEmp;
+    public Position getPositionEmployee() {
+        return positionEmployee;
     }
 
     /**
-     * @param positionEmp the positionEmp to set
+     * @param positionEmployee the positionEmployee to set
      */
-    public void setPositionEmp(Position positionEmp) {
-        this.positionEmp = positionEmp;
+    public void setPositionEmployee(Position positionEmployee) {
+        this.positionEmployee = positionEmployee;
     }
 
     

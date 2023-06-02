@@ -12,10 +12,9 @@ public class HumanResourses {
     static double netSalary = 0.0;
     static BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
     static int k = 0;
-    public static boolean find = false;
     static Position position[] = new Position[4];
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("Antes de ingresar, favor asignarle el salario base a los cargos");
         preloadPositions();
         System.out.println("Bienvenido a recursos humanos \n----------------------");
@@ -23,8 +22,8 @@ public class HumanResourses {
         mainMenu();
     }
 
-    public static void mainMenu() throws IOException {
-        System.out.println("Seleccion una opcion \n 1. Gestion de empleados \n 2. Gestion de jornada \n 3. Imprimir la planilla \n 4. Ayuda \n 5. Salir");
+    public static void mainMenu() throws IOException, InterruptedException {
+        System.out.println("Seleccion una opcion \n-----------------------\n 1. Gestion de empleados \n 2. Gestion de jornada \n 3. Imprimir la planilla \n 4. Ayuda \n 5. Salir");
         int positionition = Integer.parseInt(lector.readLine());
         switch (positionition) {
             case 1: {
@@ -43,15 +42,15 @@ public class HumanResourses {
                 break;
             }
             case 3: {
-                if (employeeList[0] != null) {
-                    printForm();
-                    System.out.println(" ");
-                    mainMenu();
-                } else {
-                    System.out.println("No hay empleados registrados");
-                    System.out.println(" ");
-                    mainMenu();
-                }
+                    if (employeeList[0] != null) {
+                        printForm();
+                        System.out.println(" ");
+                        mainMenu();
+                    } else {
+                        System.out.println("No hay empleados registrados");
+                        System.out.println(" ");
+                        mainMenu();
+                    }                
                 break;
             }
             case 4: {
@@ -59,17 +58,18 @@ public class HumanResourses {
                 break;
             }
             case 5: {
+                System.out.println("Gracias por utilizar nuestro sistema, vuelva pronto.");
                 System.exit(0);
                 break;
             }
             default:
-                System.out.println("Por favor ingrese una opcion válida");
+                System.err.println("Opción incorrecta");
                 mainMenu();
         }
 
     }
 
-    private static void employeeManagement() throws IOException {
+    private static void employeeManagement() throws IOException, InterruptedException {
         System.out.println("Gestion de empleados \n 1. Contratar empleado \n 2. "
                 + "Editar empleado \n 3. Despedir empleado \n 4. Asignar una incapacidad \n 5. Asignar pago \n 6. Regresar al menú principal");
         int option3 = Integer.parseInt(lector.readLine());
@@ -82,8 +82,12 @@ public class HumanResourses {
             }
             case 2: {
                 if (employeeList[0] != null) {
-                    System.out.println("Editar empleado");
-                    System.out.println(" ");
+                    System.out.println("Editar empleado\n----------------");
+                    for (int i = 0; i < k; i++) {
+                        System.out.println("Id:" + employeeList[i].getId() + " "
+                                + "Nombre: " + employeeList[i].getFirstName()
+                                + " Apellido: " + employeeList[i].getFirstLastName());
+                    }
                     System.out.println("Ingrese el ID del empleado");
                     Employee employee = searchEmployee(Integer.parseInt(lector.readLine()));
                     if (employee != null) {
@@ -136,10 +140,15 @@ public class HumanResourses {
                 mainMenu();
                 break;
             }
+            default: {
+                System.err.println("Opción incorrecta\n");
+                employeeManagement();
+            }
         }
     }
 
-    private static void workdayManagement() throws IOException {
+    private static void workdayManagement() throws IOException, InterruptedException {
+        System.out.println("Asignar jornada laboral \n-------------------------------");
         for (int i = 0; i < k; i++) {
             System.out.println("Id:" + employeeList[i].getId() + " Nombre: " + employeeList[i].getFirstName() + " Apellido: " + employeeList[i].getFirstLastName());
         }
@@ -147,7 +156,6 @@ public class HumanResourses {
         Employee employee = searchEmployee(Integer.parseInt(lector.readLine()));
         if (employee != null) {
             asigWorkday(employee);
-            find = true;
             mainMenu();
         } else {
             System.out.println("El empleado no fue encontrado");
@@ -156,7 +164,8 @@ public class HumanResourses {
         }
     }
 
-    private static void help() throws IOException {
+    private static void help() throws IOException, InterruptedException {
+        System.out.println("Ayuda \n ----------");
         System.out.println("¿Sobre cuál opción de las anteriores desea saber?");
         int option2 = Integer.parseInt(lector.readLine());
         switch (option2) {
@@ -183,6 +192,7 @@ public class HumanResourses {
     }
 
     private static Person hireEmployee() throws IOException {
+        System.out.println("Contratar empleado\n-----------------------");
         Position position2 = new Position();
         Employee employee = new Employee();
         System.out.println("Cedula: ");
@@ -202,75 +212,90 @@ public class HumanResourses {
         employee.setSecondLastName(slName);
         System.out.println("Ingrese el cargo que desea asignarle al  \n 1. "
                 + "Administrador \n 2. Conserje \n 3. Seguridad \n 4. Cajero");
-        position2.setId(lector.readLine());        
+        position2.setId(lector.readLine());
         for (int i = 0; i < 4; i++) {
             if (position2.getId().equals(position[i].getId())) {
                 position2.setKindPosition(position[i].getKindPosition());
                 position2.setSalary(position[i].getSalary());
             }
         }
-        employee.setPositionEmp(position2);
+        employee.setPositionEmployee(position2);
         System.out.println("Fecha de vinculacion: ");
-        Date fecha = Calendar.getInstance().getTime();
-        employee.setDateVinculation(fecha);
-        System.out.println(fecha);
+        Date date = Calendar.getInstance().getTime();
+        employee.setDateVinculation(date);
+        System.out.println(date);
         System.out.println(" ");
-
         return employee;
 
     }
 
-    private static void editEmployee(Employee employee) throws IOException {
+    private static void editEmployee(Employee employee) throws IOException, InterruptedException {
+        Position position3 = new Position();
         System.out.println("¿Qué datos va a cambiar?");
-        System.out.println("1. La cedula \n 2. Primer nombre \n 3. Segundo nombre \n 4. Primer apellido \n 5. Segundo apellido ");
+        System.out.println("1. La cedula \n 2. Primer nombre \n 3. Segundo nombre \n 4. Primer apellido \n 5. Segundo apellido \n 6. Cargo");
         int choice = Integer.parseInt(lector.readLine());
         switch (choice) {
             case 1: {
-                System.out.println("Digite la nueva cédula");
+                System.out.println("Nueva cédula: ");
                 int ced = Integer.parseInt(lector.readLine());
                 employee.setId(ced);
                 employeeManagement();
                 break;
             }
             case 2: {
-                System.out.println("Digite el nuevo primer nombre");
+                System.out.println("Primer nombre nuevo: ");
                 String nfName = lector.readLine();
                 employee.setFirstName(nfName);
                 employeeManagement();
                 break;
             }
             case 3: {
-                System.out.println("Digite el nuevo segundo nombre");
+                System.out.println("Segundo nombre nuevo: ");
                 String nsName = lector.readLine();
                 employee.setSecondName(nsName);
                 employeeManagement();
                 break;
             }
             case 4: {
-                System.out.println("Digite el nuevo primer apellido");
+                System.out.println("Primer apellido nuevo");
                 String fiName = lector.readLine();
                 employee.setFirstLastName(fiName);
                 employeeManagement();
                 break;
             }
             case 5: {
-                System.out.println("Digite el nuevo segundo nombre");
+                System.out.println("Segundo apellido nuevo:");
                 String scName = lector.readLine();
                 employee.setSecondLastName(scName);
+                employeeManagement();
+                break;
+            }
+            case 6: {
+                System.out.println("Nuevo cargo: ");
+                System.out.println("1. Administrador \n 2. Conserje \n 3. Seguridad \n 4. Cajero");
+                position3.setId(lector.readLine());
+                for (int i = 0; i < 4; i++) {
+                    if (position3.getId().equals(position[i].getId())) {
+                        position3.setKindPosition(position[i].getKindPosition());
+                        position3.setSalary(position[i].getSalary());
+                    }
+                }
+                employee.setPositionEmployee(position3);
                 employeeManagement();
                 break;
             }
         }
     }
 
-    private static void fireEmployee() throws IOException {
+    private static void fireEmployee() throws IOException, InterruptedException {
+        System.out.println("Despedir empleado\n------------------------");
         Employee employee = new Employee();
         for (int i = 0; i < k; i++) {
-            System.out.println("Posicion: " + i + " Nombre: " + employeeList[i].getFirstName() + " Apellido: " + employeeList[i].getFirstLastName());
+            System.out.println("Posicion: "+i + " Nombre: " + employeeList[i].getFirstName() + " Apellido: " + employeeList[i].getFirstLastName());
         }
-        System.out.println("\n Ingrese la positionicion del empleado que desea elminiar");
-        int positionition = Integer.parseInt(lector.readLine());
-        employeeList[positionition] = new Employee();
+        System.out.println("\n Ingrese la posicion del empleado que desea elminiar");
+        int position2 = Integer.parseInt(lector.readLine());
+        employeeList[position2] = new Employee();
         System.out.println("El empleado fue despedido.");
         System.out.println("Fecha de despido: ");
         Date fecha = Calendar.getInstance().getTime();
@@ -291,36 +316,35 @@ public class HumanResourses {
         return null;
     }
 
-    private static void printForm() throws IOException {
+    private static void printForm() throws IOException, InterruptedException {
+        System.out.println("Cargando....\n");
+        Thread.sleep(3 * 1000);
         for (int i = 0; i < k; i++) {
+//            System.out.println("Cargo del empleado: " + employeeList[i].getPositionEmployee().getKindPosition());
             System.out.println("ID: " + employeeList[i].getId());
-            System.out.println("Primer nombre: " + employeeList[i].getFirstName());
-            System.out.println("Segundo nombre: " + employeeList[i].getSecondName());
-            System.out.println("Primer apellido: " + employeeList[i].getFirstLastName());
-            System.out.println("Segundo apellido: " + employeeList[i].getSecondLastName());
+            System.out.println("Nombre completo: " + employeeList[i].getFirstName() + " "
+                    + employeeList[i].getSecondName() + " " + employeeList[i].getFirstLastName() + " "
+                    + employeeList[i].getSecondLastName());
             System.out.println("Fecha de vinculacion: " + employeeList[i].getDateVinculation());
-            System.out.println("Cargo del empleado: " + employeeList[i].getPositionEmp().getKindPosition());
             System.out.println("Tipo de pago: " + employeeList[i].getPaymentType());
             System.out.println("Salario neto: " + netSalary);
-            System.out.println(" ");
-            if (find == true) {
-                if (employeeList[i].getDisalibityId() == 0) {
-                    System.out.println("Hora de entrada: " + employeeList[i].getEntryTime());
-                    System.out.println("Hora de salida: " + employeeList[i].getDepartureTime());
-                } else {
-                    System.out.println("\n-----------------------------");
-                    System.out.println("El empleado tiene una incapacidad");
-                    System.out.println("Fecha de incapacidad: " + employeeList[i].getDisabilityEntry());
-                    System.out.println("Dias de incapacidad: " + employeeList[i].getIncapacityDays());
-                    System.out.println("Id de la incapacidad: " + employeeList[i].getDisalibityId());
-                }
+            if (employeeList[i].getDisalibityId() == 0) {
+                System.out.println("Hora de entrada: " + employeeList[i].getEntryTime());
+                System.out.println("Hora de salida: " + employeeList[i].getDepartureTime());
+            } else {
+                System.out.println("\n-----------------------------");
+                System.out.println("El empleado tiene una incapacidad");
+                System.out.println("Fecha de incapacidad: " + employeeList[i].getDisabilityEntry());
+                System.out.println("Dias de incapacidad: " + employeeList[i].getIncapacityDays());
+                System.out.println("Id de la incapacidad: " + employeeList[i].getDisalibityId());
             }
-
+            System.out.println("----------------------------- ");
         }
         mainMenu();
     }
 
-    private static void disability() throws IOException {
+    private static void disability() throws IOException, InterruptedException {
+        System.out.println("Asignar de discapacidad\n----------------------------");
         for (int i = 0; i < k; i++) {
             System.out.println("Id:" + employeeList[i].getId() + " Nombre: " + employeeList[i].getFirstName() + " Apellido: " + employeeList[i].getFirstLastName());
         }
@@ -328,7 +352,6 @@ public class HumanResourses {
         Employee employee = searchEmployee(Integer.parseInt(lector.readLine()));
         if (employee != null) {
             asigDisabiity(employee);
-            find = true;
             mainMenu();
         } else {
             System.out.println("El empleado no fue encontrado");
@@ -338,6 +361,7 @@ public class HumanResourses {
     }
 
     private static Person asigDisabiity(Employee employee) throws IOException {
+        System.out.println(" ");
         System.out.println("Fecha de incapacidad: ");
         Date fecha = Calendar.getInstance().getTime();
         employee.setDisabilityEntry(fecha);
@@ -351,18 +375,42 @@ public class HumanResourses {
         return employee;
     }
 
-    private static Person asigWorkday(Employee employee) throws IOException {
-        System.out.println("Ingrese la hora de entrada");
-        String entryHour = lector.readLine();
-        employee.setEntryTime(entryHour);
-        System.out.println("Ingrese la hora de salida");
-        String outHour = lector.readLine();
-        employee.setDepartureTime(outHour);
+    private static Person asigWorkday(Employee employee) throws IOException, InterruptedException {
+        System.out.println("Tipo de jornada laboral\n----------------------- \n 1. Diurna \n 2. Nocturna");
+        int typeWork = Integer.parseInt(lector.readLine());
+        switch (typeWork) {
+            case 1: {
+                System.out.println("Asignar de horas laborales\n------------------------------");                             
+                        System.out.println("Ingrese la hora de entrada");
+                        String entryHour = lector.readLine();
+                        employee.setEntryTime(entryHour + " a.m.");
+                        System.out.println("Ingrese la hora de salida");
+                        String outHour = lector.readLine();
+                        employee.setDepartureTime(outHour + " p.m.");
+                        mainMenu();
+                break;
+            }
+            case 2: {
+                System.out.println("Asignar de horas laborales\n------------------------------");
+                        System.out.println("Ingrese la hora de entrada");
+                        String entryHour2 = lector.readLine();
+                        employee.setEntryTime(entryHour2 + " p.m.");
+                        System.out.println("Ingrese la hora de salida");
+                        String outHour2 = lector.readLine();
+                        employee.setDepartureTime(outHour2 + " a.m.");
+                        mainMenu();
+                break;
+            }
+            default:{
+                System.out.println("Opcion incorrecta");
+                asigWorkday(employee);
+            }
+        }
         return employee;
-
     }
 
-    private static void assignPayment() throws IOException {
+    private static void assignPayment() throws IOException, InterruptedException {
+        System.out.println("Asignar de pago\n-------------------------");
         for (int i = 0; i < k; i++) {
             System.out.println("Id:" + employeeList[i].getId() + " Nombre: " + employeeList[i].getFirstName() + " Apellido: " + employeeList[i].getFirstLastName());
         }
@@ -381,22 +429,26 @@ public class HumanResourses {
     private static Person payment(Employee employee) throws IOException {
         System.out.println("¿Cómo le pagará al empleado?\n 1. Cheque \n 2. Deposito \n 3. Efectivo");
         int type = Integer.parseInt(lector.readLine());
-        switch(type){
-            case 1:{
-                 employee.setPaymentType("Cheque");
-                 break;
+        switch (type) {
+            case 1: {
+                employee.setPaymentType("Cheque");
+                break;
             }
-            case 2:{
+            case 2: {
                 employee.setPaymentType("Deposito");
                 break;
             }
-            case 3:{
+            case 3: {
                 employee.setPaymentType("Efectivo");
                 break;
             }
-        }       
-        netSalary = employee.getPositionEmp().getSalary();        
-        netSalary = netSalary * 0.9; 
+            default: {
+                System.out.println("Ingrese una opción válida");
+                payment(employee);
+            }
+        }
+        netSalary = employee.getPositionEmployee().getSalary();
+        netSalary = netSalary * 0.9;
         double salaryHour = netSalary / 192;
         double halfSalary = (salaryHour / 2);
         salaryHour = salaryHour + halfSalary;
